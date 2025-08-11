@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useEmployees } from '../context/EmployeeContext';
 import '../styles/home.css';
 
 export default function CreatePage() {
@@ -9,23 +8,39 @@ export default function CreatePage() {
     const [role, setRole] = useState('');
     const [image, setImage] = useState<File | null>(null);
     const router = useRouter();
-    const { addEmployee } = useEmployees();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!name || !role || !image) return;
 
+        // Convert image to base64
+        const base64Image = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.onerror = reject;
+            reader.readAsDataURL(image);
+        });
+
         const newEmp = {
-            id: Date.now(),
             name,
             role,
-            image // keep it as File, let context convert it to base64
+            image: base64Image
         };
 
-        await addEmployee(newEmp);
-        router.push('/');
-    };
+        try {
+            const res = await fetch('http://localhost:3001/api/employees', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newEmp)
+            });
 
+            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+
+            router.push('/');
+        } catch (err) {
+            console.error('Failed to save employee:', err);
+        }
+    };
 
     return (
         <div className="home-wrapper">
