@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  db:
+    build:
+      context: ./postgres
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "3001:3001"
+    environment:
+      PGUSER: test
+      PGPASSWORD: test
+      PGDATABASE: employees
+      PGHOST: db
+      PGPORT: 5432
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
