@@ -1,10 +1,12 @@
+version: "3.8"
+
 services:
   db:
     container_name: db
     build:
       context: ./postgres
-    expose:
-      - "5432" 
+    ports:
+      - "5432:5432" 
     networks:
       - app-network
     volumes:
@@ -14,8 +16,8 @@ services:
     container_name: backend
     build:
       context: ./backend
-    expose:
-      - "3001" 
+    ports:
+      - "3001:3001"  
     environment:
       PGUSER: test
       PGPASSWORD: test

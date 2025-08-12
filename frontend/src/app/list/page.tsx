@@ -7,7 +7,7 @@ export default function ListPage() {
     const [employees, setEmployees] = useState([]);
 
     useEffect(() => {
-        fetch('http://backend:3001/api/employees')
+        fetch('http://worker.dhanu.cloud:3001/api/employees')
             .then(res => res.json())
             .then(data => {
                 setEmployees(data);

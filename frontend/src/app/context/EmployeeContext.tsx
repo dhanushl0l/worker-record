@@ -26,7 +26,7 @@ export function EmployeeProvider({ children }: { children: ReactNode }) {
     const [employees, setEmployees] = useState<Employee[]>([]);
 
     useEffect(() => {
-        fetch('http://backend:3001/api/employees')
+        fetch('http://worker.dhanu.cloud:3001/api/employees')
             .then(res => res.json())
             .then(data => {
                 setEmployees(Array.isArray(data) ? data : data.employees || []);
@@ -55,7 +55,7 @@ export function EmployeeProvider({ children }: { children: ReactNode }) {
             imageBase64 = emp.image;
         }
 
-        const res = await fetch('http://backend:3001/api/employees', {
+        const res = await fetch('http://worker.dhanu.cloud:3001/api/employees', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

@@ -10,7 +10,7 @@ app.use(express.json());
 
 const clientConfig = {
     user: process.env.PGUSER || 'test',
-    host: process.env.PGHOST || 'db', // Docker service name for PostgreSQL
+    host: process.env.PGHOST || 'worker.dhanu.cloud', // Docker service name for PostgreSQL
     database: process.env.PGDATABASE || 'employees',
     password: process.env.PGPASSWORD || 'test',
     port: parseInt(process.env.PGPORT, 10) || 5432,
