@@ -10,11 +10,12 @@ app.use(express.json());
 
 const clientConfig = {
     user: process.env.PGUSER || 'test',
-    host: process.env.PGHOST || 'postgres',
+    host: process.env.PGHOST || 'db', // Docker service name for PostgreSQL
     database: process.env.PGDATABASE || 'employees',
     password: process.env.PGPASSWORD || 'test',
-    port: parseInt(process.env.PGPORT) || 5432,
+    port: parseInt(process.env.PGPORT, 10) || 5432,
 };
+
 
 app.get('/api/employees', async (req, res) => {
     try {
